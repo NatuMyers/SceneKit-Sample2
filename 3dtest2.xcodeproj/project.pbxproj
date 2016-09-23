@@ -17,6 +17,7 @@
 		208EEF441D95E1EC00220C1F /* AppIcon in Resources */ = {isa = PBXBuildFile; fileRef = 208EEF411D95E1EC00220C1F /* AppIcon */; };
 		208EEF451D95E1EC00220C1F /* GameUtils in Resources */ = {isa = PBXBuildFile; fileRef = 208EEF421D95E1EC00220C1F /* GameUtils */; };
 		208EEF461D95E1EC00220C1F /* GeometryFighter.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = 208EEF431D95E1EC00220C1F /* GeometryFighter.scnassets */; };
+		208EEF481D95E55700220C1F /* Logo_Diffuse.png in Resources */ = {isa = PBXBuildFile; fileRef = 208EEF471D95E55700220C1F /* Logo_Diffuse.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,6 +54,7 @@
 		208EEF411D95E1EC00220C1F /* AppIcon */ = {isa = PBXFileReference; lastKnownFileType = folder; name = AppIcon; path = ../../../Downloads/resources/AppIcon; sourceTree = "<group>"; };
 		208EEF421D95E1EC00220C1F /* GameUtils */ = {isa = PBXFileReference; lastKnownFileType = folder; name = GameUtils; path = ../../../Downloads/resources/GameUtils; sourceTree = "<group>"; };
 		208EEF431D95E1EC00220C1F /* GeometryFighter.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; name = GeometryFighter.scnassets; path = ../../../Downloads/resources/GeometryFighter.scnassets; sourceTree = "<group>"; };
+		208EEF471D95E55700220C1F /* Logo_Diffuse.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Logo_Diffuse.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -107,6 +109,7 @@
 				208EEF0F1D95CE0900220C1F /* GameViewController.swift */,
 				208EEF111D95CE0900220C1F /* Main.storyboard */,
 				208EEF141D95CE0900220C1F /* Assets.xcassets */,
+				208EEF471D95E55700220C1F /* Logo_Diffuse.png */,
 				208EEF411D95E1EC00220C1F /* AppIcon */,
 				208EEF421D95E1EC00220C1F /* GameUtils */,
 				208EEF431D95E1EC00220C1F /* GeometryFighter.scnassets */,
@@ -240,6 +243,7 @@
 			files = (
 				208EEF451D95E1EC00220C1F /* GameUtils in Resources */,
 				208EEF181D95CE0900220C1F /* LaunchScreen.storyboard in Resources */,
+				208EEF481D95E55700220C1F /* Logo_Diffuse.png in Resources */,
 				208EEF441D95E1EC00220C1F /* AppIcon in Resources */,
 				208EEF151D95CE0900220C1F /* Assets.xcassets in Resources */,
 				208EEF131D95CE0900220C1F /* Main.storyboard in Resources */,
