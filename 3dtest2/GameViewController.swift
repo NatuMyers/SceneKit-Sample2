@@ -20,10 +20,28 @@ class GameViewController: UIViewController {
         scnScene.rootNode.addChildNode(cameraNode)
     }
     
+    func spawnShape() {
+        // 1 First you create a placeholder geometry variable for use a bit later on.
+        var geometry:SCNGeometry
+        // 2  define a switch statement to handle the returned shape from ShapeType.random(). It’s incomplete at the moment and only creates a box shape; you’ll add more to it in the challenge at the end of this chapter.
+        switch ShapeType.random() {
+        default:
+            // 3 You then create an SCNBox object and store it in geometry. You specify the width, height, and length, along with the chamfer radius (which is a fancy way of saying rounded corners).
+            geometry = SCNBox(width: 1.0, height: 1.0, length: 1.0, chamferRadius: 0.0)
+        }
+        // 4 This statement creates an instance of SCNNode named geometryNode. This time, you make use of the SCNNode initializer that takes a geometry parameter to create a node and automatically attach the supplied geometry.
+
+        let geometryNode = SCNNode(geometry: geometry)
+        // 5 Finally, you add the node as a child of the scene’s root node.
+        scnScene.rootNode.addChildNode(geometryNode)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
         setupScene()
+        setupCamera() // call the camera stuff we did
+        spawnShape() // call shape spawn
     }
     
     override func shouldAutorotate() -> Bool {
