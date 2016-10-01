@@ -34,6 +34,25 @@ class GameViewController: UIViewController {
         let geometryNode = SCNNode(geometry: geometry)
         // 5 Finally, you add the node as a child of the scene’s root node.
         scnScene.rootNode.addChildNode(geometryNode)
+        
+        
+        // this makes us able to change perspective
+        // 1 showStatistics enables a real-time statistics panel at the bottom of your scene.
+        scnView.showsStatistics = true
+        // 2 allowsCameraControl lets you manually control the active camera through simple gestures.
+        scnView.allowsCameraControl = true
+        // 3 autoenablesDefaultLighting creates a generic omnidirectional light in your scene so you don’t have to worry about adding your own light sources for the moment.
+        scnView.autoenablesDefaultLighting = true
+        
+        /*
+ 
+         Single finger swipe: Rotates your active camera around the contents of the scene.
+         Two finger swipe: Moves, or pans your camera left, right, up or down in the scene.
+         Two finger pinch: Zooms the camera in and out of the scene.
+         Double-tap: If you have more than one camera, this switches between the cameras in your scene. Of course since you have only one camera this won’t don that. However, it also has the effect of resetting the camera to its original position and settings.
+
+         */
+
     }
     
     override func viewDidLoad() {
