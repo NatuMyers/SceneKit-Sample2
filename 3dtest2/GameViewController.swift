@@ -1,6 +1,7 @@
 import UIKit
 import SceneKit
 
+
 class GameViewController: UIViewController {
     
     var scnView: SCNView! // Here you declare a property for the SCNView that renders the content of the SCNScene on the display.
@@ -9,39 +10,83 @@ class GameViewController: UIViewController {
     var cameraNode: SCNNode!
     
     func setupCamera() {
+        
         // 1 You first create an empty SCNNode and assign it to cameraNode.
+        
         cameraNode = SCNNode()
+        
         // 2 You next create a new SCNCamera object and assign it to the camera property of cameraNode.
+        
         cameraNode.camera = SCNCamera()
+        
         // 3 Then you set the position of the camera at (x:0, y:0, z:10).
 
-        cameraNode.position = SCNVector3(x: 0, y: 0, z: 10)
+        cameraNode.position = SCNVector3(x: 0, y: 5, z: 10)
+        
         // 4 Finally, you add cameraNode to the scene as a child node of the scene’s root node.
+        
         scnScene.rootNode.addChildNode(cameraNode)
     }
     
     func spawnShape() {
+        
         // 1 First you create a placeholder geometry variable for use a bit later on.
+        
         var geometry:SCNGeometry
+        
         // 2  define a switch statement to handle the returned shape from ShapeType.random(). It’s incomplete at the moment and only creates a box shape; you’ll add more to it in the challenge at the end of this chapter.
         switch ShapeType.random() {
+        
         default:
             // 3 You then create an SCNBox object and store it in geometry. You specify the width, height, and length, along with the chamfer radius (which is a fancy way of saying rounded corners).
             geometry = SCNBox(width: 1.0, height: 1.0, length: 1.0, chamferRadius: 0.0)
         }
+        
         // 4 This statement creates an instance of SCNNode named geometryNode. This time, you make use of the SCNNode initializer that takes a geometry parameter to create a node and automatically attach the supplied geometry.
 
         let geometryNode = SCNNode(geometry: geometry)
+        
         // 5 Finally, you add the node as a child of the scene’s root node.
+        
         scnScene.rootNode.addChildNode(geometryNode)
         
+        // add color ---
         
-        // this makes us able to change perspective
+        geometry.materials.first?.diffuse.contents = UIColor.random()
+        
+        // add physics to the shapes---
+        
+        geometryNode.physicsBody = SCNPhysicsBody(type: .Dynamic, shape: nil) // creates a new instance of SCNPhysicsBody and assigns it to the physicsBody property of geometryNode. When you create a physics body, you specify the type and shape the body should have. If you pass in nil for the physics shape, Scene Kit will automatically generate a shape based on the geometry of the node. 
+        // If you want to add more detail to the physics shape, you could create a SCNPhysicsShape and use that for the shape instead of passing in nil.
+        
+        // now that there are physics, add force
+        
+        
+        // 1
+        let randomX = Float.random(min: -2, max: 2)
+        
+        let randomY = Float.random(min: 10, max: 18)
+        // 2
+        let force = SCNVector3(x: randomX, y: randomY , z: 0)
+        // 3
+        let position = SCNVector3(x: 0.05, y: 0.05, z: 0.05)
+        // 4
+        geometryNode.physicsBody?.applyForce(force, atPosition: position, impulse: true)
+        
+        // (impulses stop. non-[impulse forces keep going)
+        
+        
+        // this makes us able to change perspective----
+        
         // 1 showStatistics enables a real-time statistics panel at the bottom of your scene.
+        
         scnView.showsStatistics = true
+        
         // 2 allowsCameraControl lets you manually control the active camera through simple gestures.
+        
         scnView.allowsCameraControl = true
         // 3 autoenablesDefaultLighting creates a generic omnidirectional light in your scene so you don’t have to worry about adding your own light sources for the moment.
+        
         scnView.autoenablesDefaultLighting = true
         
         /*
@@ -56,6 +101,7 @@ class GameViewController: UIViewController {
     }
     
     override func viewDidLoad() {
+        
         super.viewDidLoad()
         setupView()
         setupScene()
