@@ -7,7 +7,11 @@ class GameViewController: UIViewController {
     var scnView: SCNView! // Here you declare a property for the SCNView that renders the content of the SCNScene on the display.
     var scnScene: SCNScene! // Here you declare a property for the SCNScene in your game. You will add components like lights, camera, geometry, or particle emitters as children of this scene.
     
+   
+    
     var cameraNode: SCNNode!
+    
+    var spawnTime:NSTimeInterval = 0
     
     func setupCamera() {
         
@@ -26,6 +30,8 @@ class GameViewController: UIViewController {
         // 4 Finally, you add cameraNode to the scene as a child node of the scene’s root node.
         
         scnScene.rootNode.addChildNode(cameraNode)
+        
+
     }
     
     func spawnShape() {
@@ -100,6 +106,20 @@ class GameViewController: UIViewController {
 
     }
     
+    //  remove objects that fall out of sight because spawnshape doesn't.
+    func cleanScene() {
+        // 1 Here you simply create a little for loop that steps through all available child nodes within the root node of the scene.
+        for node in scnScene.rootNode.childNodes {
+            // 2 Since the physics simulation is in play at this point, you can’t simply look at the object’s position as this reflects the position before the animation started. Scene Kit maintains a copy of the object during the animation and plays it out until the animation is done. It’s a strange concept to understand at first, but you’ll see how this works before long. To get the actual position of an object while it’s animating, you leverage the presentationNode property. This is purely read-only: don’t attempt to modify any values on this property!
+            
+            if node.presentationNode.position.y < -2 {
+                // 3 kill the object
+                node.removeFromParentNode()
+            }
+        }
+    }
+
+    
     override func viewDidLoad() {
         
         super.viewDidLoad()
@@ -119,6 +139,8 @@ class GameViewController: UIViewController {
     
     func setupView() { // Here, you cast self.view to a SCNView and store it in the scnView property so that you don’t have to re-cast it ever time you need to reference the view. Note that the view is already configured as an SCNView in Main.storyboard.
         scnView = self.view as! SCNView
+        scnView.delegate = self // Before the view can call the renderer delegate method, it first needs to know that GameViewController will act as the delegate for the view.
+        scnView.playing = true
     }
     
     func setupScene() { //  creates a new blank instance of SCNScene and stores it in scnScene; it then sets this blank scene as the one for scnView to use.
@@ -129,4 +151,25 @@ class GameViewController: UIViewController {
         scnScene.background.contents = "GeometryFighter.scnassets/Textures/Background_Diffuse.png"
     }
     
+
+    
+}
+
+// add renderer delegate
+// 1 adds an extension to GameViewController for protocol conformance and lets you maintain code protocol methods in separate blocks of code.
+extension GameViewController: SCNSceneRendererDelegate {
+    // 2 adds an implemention of the renderer(_: updateAtTime:) protocol method.
+    func renderer(renderer: SCNSceneRenderer, updateAtTime time: NSTimeInterval) {
+        // 3 call spawnShape() to create a new shape inside the delegate method.
+        // spawnShape() didn't workfor periodic spawning
+        
+        // 1
+        if time > spawnTime {
+            spawnShape()
+            cleanScene()
+            
+            // 2
+            spawnTime = time + NSTimeInterval(Float.random(min: 0.2, max: 1.5))
+        }
+    }
 }
