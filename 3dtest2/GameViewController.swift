@@ -5,9 +5,8 @@ import SceneKit
 class GameViewController: UIViewController {
     
     var scnView: SCNView! // Here you declare a property for the SCNView that renders the content of the SCNScene on the display.
-    var scnScene: SCNScene! // Here you declare a property for the SCNScene in your game. You will add components like lights, camera, geometry, or particle emitters as children of this scene.
     
-   
+    var scnScene: SCNScene! // Here you declare a property for the SCNScene in your game. You will add components like lights, camera, geometry, or particle emitters as children of this scene.
     
     var cameraNode: SCNNode!
     
@@ -31,7 +30,6 @@ class GameViewController: UIViewController {
         
         scnScene.rootNode.addChildNode(cameraNode)
         
-
     }
     
     func spawnShape() {
@@ -80,6 +78,15 @@ class GameViewController: UIViewController {
         geometryNode.physicsBody?.applyForce(force, atPosition: position, impulse: true)
         
         // (impulses stop. non-[impulse forces keep going)
+        
+        // add in trail -------
+        
+        let color = UIColor.random()
+        geometry.materials.first?.diffuse.contents = color
+        
+        
+        let trailEmitter = createTrail(color, geometry: geometry) // This uses createTrail(_: geometry:) to create a particle system and attach it to geometryNode.
+        geometryNode.addParticleSystem(trailEmitter)
         
         
         // this makes us able to change perspective----
@@ -149,6 +156,24 @@ class GameViewController: UIViewController {
         
         
         scnScene.background.contents = "GeometryFighter.scnassets/Textures/Background_Diffuse.png"
+    }
+    
+    
+    // Trail function ! ----
+    
+    // 1 This defines createTrail(_: geometry:) which takes in color and geometry parameters to set up the particle system.
+    func createTrail(color: UIColor, geometry: SCNGeometry) -> SCNParticleSystem {
+        
+        // 2 This loads the particle system from the file you created earlier.
+        let trail = SCNParticleSystem(named: "Trail.scnp", inDirectory: nil)!
+        
+        // 3 Next, you modify the particle’s tint color based on the parameter passed in.
+        trail.particleColor = color
+        
+        // 4 This uses the geometry parameter to specify the emitter’s shape.
+        trail.emitterShape = geometry
+        // 5
+        return trail
     }
     
 
