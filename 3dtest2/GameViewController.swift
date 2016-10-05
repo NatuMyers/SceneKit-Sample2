@@ -12,6 +12,8 @@ class GameViewController: UIViewController {
     
     var spawnTime:NSTimeInterval = 0
     
+    var game = GameHelper.sharedInstance // access the GameHelper shared instance, which contains a set of methods to do the heavy lifting for you.
+    
     func setupCamera() {
         
         // 1 You first create an empty SCNNode and assign it to cameraNode.
@@ -134,6 +136,7 @@ class GameViewController: UIViewController {
         setupScene()
         setupCamera() // call the camera stuff we did
         spawnShape() // call shape spawn
+        setupHUD()
     }
     
     override func shouldAutorotate() -> Bool {
@@ -176,6 +179,13 @@ class GameViewController: UIViewController {
         return trail
     }
     
+    
+    func setupHUD() {
+        // Here you make use of game.hudNode from the helper library. You set its the HUD node’s position and add it to the scene.
+        game.hudNode.position = SCNVector3(x: 0.0, y: 10.0, z: 0.0)
+        scnScene.rootNode.addChildNode(game.hudNode)
+    }
+    
 
     
 }
@@ -196,5 +206,6 @@ extension GameViewController: SCNSceneRendererDelegate {
             // 2
             spawnTime = time + NSTimeInterval(Float.random(min: 0.2, max: 1.5))
         }
+        game.updateHUD()
     }
 }
